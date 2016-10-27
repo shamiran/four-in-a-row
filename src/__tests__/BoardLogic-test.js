@@ -1,10 +1,12 @@
-const BoardLogic = require("../BoardLogic.js");
+const BoardLogic = require("../boardLogic.js");
 
 var rows = 6;
 var cols = 7;
 
 test("Generates a board filled with 0's", () => {
-	const boardLogic = new BoardLogic(rows, cols);
+
+	//TODO: Fix SyntaxError: Unexpected Number
+	const boardLogic = new BoardLogic.constructor(rows, cols);
 	const board = boardLogic.generateBoard(rows, cols);
 	rows = [];
 	for (var i = 0; i < rows; i++){
