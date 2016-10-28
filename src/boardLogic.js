@@ -3,33 +3,33 @@
 
 /* Creates the board used for game logic  */
 const BoardLogic = class {
-
 	constructor(rows, cols) {
-		this.rows = rows;
-		this.cols = cols;
-		this.board = generateBoard(this.rows,this.cols);
-		this.EMPTY = 0;
-		this.RED = 1;
-		this.BLUE = 2;
-		this.index = [];
+		this.rows =  rows;
+		this.cols =  cols;
+		this.board = this.generateBoard(this.rows, this.cols);
+		//Index array for tracking depth of first game piece in each column
+		this.index = new Array(cols).fill(0);
+		BoardLogic.EMPTY = 0;
+		BoardLogic.RED = 1;
+		BoardLogic.BLUE = 2;
 		
 	}
 
 	/* Generates an empty m x n matrix  */
 	generateBoard(rows, cols) {
-		var rows =  [];
+		let board =  [];
 		for (let i = 0; i < rows; i++){
 			let column = [];
-			rows[i] = column;
+			board[i] = column;
 			for (let j = 0; j < cols; j++) {
-				column[j] = this.EMPTY;
+				column[j] = BoardLogic.EMPTY;
 			}
 		}
-
-		return rows;
+		this.board = board;
+		return board;
 	}
 }
 
-/* Generates an empty m x n matrix */
+
 
 module.exports = BoardLogic;

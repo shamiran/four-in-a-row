@@ -25,13 +25,21 @@ class BoardContainer extends Component {
 /* Contains the bar used for selecting which column to place your gamepiece in */
 class PlayBar extends Component {
   render() {
-    return()
+    return(
+      <div>
+        PlayBar
+      </div>
+    );
   }
 }
 
 class Board extends Component {
   render() {
-    return ()
+    return (
+      <div>
+        Board
+      </div>
+    );
   }
 
 }
