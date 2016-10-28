@@ -1,32 +1,54 @@
 
 
 
-/* Creates the board used for game logic  */
 const BoardLogic = class {
-	constructor(rows, cols) {
-		this.rows =  rows;
+	constructor(cols, rows) {
+		this.EMPTY = 0;
+		this.RED = 1;
+		this.YELLOW = 2;
+		this.currentPlayer = this.RED;
 		this.cols =  cols;
-		this.board = this.generateBoard(this.rows, this.cols);
+		this.rows =  rows;
+		this.board = this.generateBoard(this.cols, this.rows);
 		//Index array for tracking depth of first game piece in each column
-		this.index = new Array(cols).fill(0);
-		BoardLogic.EMPTY = 0;
-		BoardLogic.RED = 1;
-		BoardLogic.BLUE = 2;
+		this.depth = new Array(cols).fill(0);
+
 		
 	}
 
-	/* Generates an empty m x n matrix  */
-	generateBoard(rows, cols) {
-		let board =  [];
-		for (let i = 0; i < rows; i++){
-			let column = [];
-			board[i] = column;
-			for (let j = 0; j < cols; j++) {
-				column[j] = BoardLogic.EMPTY;
+	/* Returns an empty col x row matrix  */
+	generateBoard(cols, rows) {
+		let board =  new Array(cols).fill().map( () => Array(rows).fill(0));
+
+		return board;
+	}
+	getBoard() {
+		return this.board;
+	}
+	/* Returns the depth of the first free board position */
+	getDepth(col) {
+		const maxDepth = this.rows;
+		if( col < 0 || col >= this.cols) {
+			return -1;
+		}
+		for (let currentDepth = 0; currentDepth < maxDepth; currentDepth++) {
+			if (this.board[col][this.rows] != 0) {
+				return currentDepth;
 			}
 		}
-		this.board = board;
-		return board;
+		return maxDepth;
+	}
+	/* Attempts to play a piece in seleted column
+	   Returns true if valid play */
+	play(col) {
+		//If column is full do nothing
+		if (this.getDepth(col) >= this.rows || col < 0 || col >= this.cols) {
+			return false;
+		}
+		this.board[col][this.getDepth(col)] = this.currentPlayer;
+		// console.log(JSON.stringify(this.board));
+		this.currentPlayer = this.currentPlayer === this.RED ? this.YELLOW : this.RED;
+		return true;
 	}
 }
 
