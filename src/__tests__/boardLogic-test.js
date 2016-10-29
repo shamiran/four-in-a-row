@@ -13,13 +13,20 @@ describe('Board logic for the game', () =>{
 			for (let i = 0; i < cols; i++){	
 				board[i] = new Array(rows).fill(boardLogic.EMPTY);
 			}
-		expect(boardLogic.getBoard(), board);
+		expect(boardLogic.getBoard()).toEqual(board);
 	});
 
 	it("Returns depth 0 for an empty column", () => {
 		const boardLogic = new BoardLogic(cols, rows);
+		expect(boardLogic.getHeight(0)).toEqual(0);
+	});
 
-		expect(boardLogic.getDepth(0), 0);
+	it("Returns depth 3 for a column with 3 pieces", () => {
+		const boardLogic = new BoardLogic(cols, rows);
+		boardLogic.play(0);
+		boardLogic.play(0);
+		boardLogic.play(0);
+		expect(boardLogic.getHeight(0)).toEqual(3);
 	});
 
 	it("Plays a red piece in an empty column", () => {
@@ -28,27 +35,54 @@ describe('Board logic for the game', () =>{
 		const playAccepted = boardLogic.play(0);
 		const board = boardLogic.getBoard();
 		expect(board[0][0], boardLogic.RED);
-		expect(playAccepted, true);
-	})
+		expect(playAccepted).toBeTruthy();
+	});
 	it("Plays a yellow piece in an empty column", () => {
 		const boardLogic = new BoardLogic(cols, rows);
 		boardLogic.play(0);
 		boardLogic.play(1);
-		expect(boardLogic.getBoard()[1][1], boardLogic.YELLOW);
-	})
+		expect(boardLogic.getBoard()[1][0]).toEqual(boardLogic.YELLOW);
+	});
 	it("Disallows moves outside of column bounds", () => {
 		const boardLogic = new BoardLogic(cols,rows);
 		expect(boardLogic.play(-1), false);
-		expect(boardLogic.play(cols), false);
-	})
+		expect(boardLogic.play(cols)).toBeFalsy();
+	});
 	it("Disallows move in a full column", () => {
 		const boardLogic = new BoardLogic(cols, rows);
 		for (let height = 0; height < rows; height++) {
-			expect(boardLogic.play(0),true);
+			expect(boardLogic.play(0)).toBeTruthy();
 		}
-		expect(boardLogic.play(0),false)
-	})
-	
+		expect(boardLogic.play(0)).toBeFalsy();
+	});
+	it("Detects straight down win condition", () => {
+		const boardLogic = new BoardLogic(cols, rows);
+		for (let turn = 0; turn < 6; turn ++)  {
+			boardLogic.play(turn % 2);
+		}
+
+		boardLogic.play(0);
+		expect(boardLogic.checkForWin(0)).toEqual(boardLogic.RED_WIN);
+
+	});
+	it("Detects diagonal win condition", () => {
+		const boardLogic = new BoardLogic(cols, rows);
+		boardLogic.play(0);
+		boardLogic.play(1);
+		boardLogic.play(1);
+		boardLogic.play(2);
+		boardLogic.play(3);
+		boardLogic.play(2);
+		boardLogic.play(2);
+		boardLogic.play(3);
+		boardLogic.play(4);
+		boardLogic.play(3);
+		// expect(boardLogic.currentPlayer, boardLogic.RED_TURN);
+		boardLogic.play(3);
+		console.log(boardLogic.board);
+		console.log(boardLogic.checkForWin(3));
+		expect(boardLogic.checkForWin(3)).toEqual(boardLogic.RED_WIN);
+	});
 
 
 })
