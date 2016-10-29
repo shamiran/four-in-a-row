@@ -62,7 +62,7 @@ describe('Board logic for the game', () =>{
 		}
 
 		boardLogic.play(0);
-		expect(boardLogic.checkForWin(0)).toEqual(boardLogic.RED_WIN);
+		expect(boardLogic.checkForWin()).toEqual(boardLogic.RED_WIN);
 
 	});
 	it("Detects horizontal win condition", () => {
@@ -74,10 +74,25 @@ describe('Board logic for the game', () =>{
 		boardLogic.play(2);
 		boardLogic.play(2);
 		boardLogic.play(3);
-		console.log(boardLogic.board);
-		expect(boardLogic.checkForWin(0)).toEqual(boardLogic.RED_WIN);
+		expect(boardLogic.checkForWin()).toEqual(boardLogic.RED_WIN);
 	});
-	/*it("Detects diagonal win condition", () => {
+	it("Detects a right diagonal win condition", () => {
+		const boardLogic = new BoardLogic(cols, rows);
+		boardLogic.play(0);
+		boardLogic.play(0);
+		boardLogic.play(0);
+		boardLogic.play(1);
+		boardLogic.play(0);
+		boardLogic.play(1);
+		boardLogic.play(1);
+		boardLogic.play(2);
+		boardLogic.play(2);
+		boardLogic.play(2);
+		boardLogic.play(3);
+		console.log(boardLogic.board);
+		expect(boardLogic.checkForWin()).toEqual(boardLogic.RED_WIN);
+	});
+	it("Detects left diagonal win condition", () => {
 		const boardLogic = new BoardLogic(cols, rows);
 		boardLogic.play(0);
 		boardLogic.play(1);
@@ -92,8 +107,9 @@ describe('Board logic for the game', () =>{
 		// expect(boardLogic.currentPlayer, boardLogic.RED_TURN);a
 		boardLogic.play(3);
 		// console.log(boardLogic.checkForWin(3));
-		expect(boardLogic.checkForWin(3)).toEqual(boardLogic.RED_WIN);
-	});*/
+		console.log(boardLogic.board);
+		expect(boardLogic.checkForWin()).toEqual(boardLogic.RED_WIN);
+	});
 
 
 })
