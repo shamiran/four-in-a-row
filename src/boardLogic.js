@@ -60,50 +60,36 @@ const BoardLogic = class {
 	}
 	/* Checks if the last placed game piece in the column results in a win */
 	checkForWin(col) {
-		let row = this.getHeight(col) - 1;
-		let currentPlayer = this.board[col][row];
-		let sum = [];
 
-		//Down
-		let tempSum = 1;
-		for (let i = row; i > 0; i--) {
-			if (this.board[col][i] != currentPlayer) {
-				break;
+		//Vertically
+		for (let col = 0; col < this.cols; col++) {
+			for(let row = 0; row < this.rows - 3; row++) {
+				let currentPiece = this.board[col][row];
+				if (currentPiece != this.EMPTY &&
+					currentPiece === this.board[col][row + 1] && 
+					currentPiece === this.board[col][row + 2] && 
+					currentPiece === this.board[col][row + 3]) {
+					return currentPiece === this.RED ? this.RED_WIN : this.YELLOW_WIN;
+				}
+			}	
+		}
+		//Horizontally
+		for (let row = 0; row < this.rows; row++) {
+			for (let col = 0; col < this.cols - 3; col++) {
+				let currentPiece = this.board[col][row];
+				if (currentPiece != this.EMPTY &&
+					currentPiece === this.board[col + 1][row] && 
+					currentPiece === this.board[col + 2][row] && 
+					currentPiece === this.board[col + 3][row]) {
+					return currentPiece === this.RED ? this.RED_WIN : this.YELLOW_WIN;
+				}
 			}
-			tempSum++;
 		}
+		
+		
 
-		sum.push(tempSum);
-		//Horizontally to the right
-		tempSum = 1;
-		for (let i = col + 1; i < Math.min(col + 4, this.cols); i++) {
-			if (this.board[i][row] != currentPlayer){
-				break;
-			}
-			tempSum++;
-		}
-		//Horizontally to the left
-		for (let i = col; i > Math.max(col - 4, 0); i--) {
-			if(this.board[i][row] != currentPlayer) {
-				break;
-			}
-			tempSum++;
-		}
-		sum.push(tempSum);
-		//Diagonally up to the right
-
-		//Diagonally down to the left
-
-		//Diagonally up to the left
-
-		//Diagonally down to the right
-		// console.log(this.board);
-		// console.log(Math.max.apply(Math, sum));
-		if(Math.max.apply(Math,sum) >= 4) {
-			return currentPlayer === this.RED ? this.RED_WIN : this.YELLOW_WIN;
-		} else {
-			return this.GAME_CONTINUES;
-		}
+		return this.GAME_CONTINUES;
+		
 
 	}
 }

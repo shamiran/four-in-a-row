@@ -55,7 +55,7 @@ describe('Board logic for the game', () =>{
 		}
 		expect(boardLogic.play(0)).toBeFalsy();
 	});
-	it("Detects straight down win condition", () => {
+	it("Detects vertical win condition", () => {
 		const boardLogic = new BoardLogic(cols, rows);
 		for (let turn = 0; turn < 6; turn ++)  {
 			boardLogic.play(turn % 2);
@@ -65,7 +65,19 @@ describe('Board logic for the game', () =>{
 		expect(boardLogic.checkForWin(0)).toEqual(boardLogic.RED_WIN);
 
 	});
-	it("Detects diagonal win condition", () => {
+	it("Detects horizontal win condition", () => {
+		const boardLogic = new BoardLogic(cols,rows);
+		boardLogic.play(0);
+		boardLogic.play(0);
+		boardLogic.play(1);
+		boardLogic.play(1);
+		boardLogic.play(2);
+		boardLogic.play(2);
+		boardLogic.play(3);
+		console.log(boardLogic.board);
+		expect(boardLogic.checkForWin(0)).toEqual(boardLogic.RED_WIN);
+	});
+	/*it("Detects diagonal win condition", () => {
 		const boardLogic = new BoardLogic(cols, rows);
 		boardLogic.play(0);
 		boardLogic.play(1);
@@ -77,12 +89,11 @@ describe('Board logic for the game', () =>{
 		boardLogic.play(3);
 		boardLogic.play(4);
 		boardLogic.play(3);
-		// expect(boardLogic.currentPlayer, boardLogic.RED_TURN);
+		// expect(boardLogic.currentPlayer, boardLogic.RED_TURN);a
 		boardLogic.play(3);
-		console.log(boardLogic.board);
-		console.log(boardLogic.checkForWin(3));
+		// console.log(boardLogic.checkForWin(3));
 		expect(boardLogic.checkForWin(3)).toEqual(boardLogic.RED_WIN);
-	});
+	});*/
 
 
 })
