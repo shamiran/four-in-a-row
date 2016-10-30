@@ -14,26 +14,21 @@ const BoardLogic = class {
 		this.cols =  cols;
 		this.rows =  rows;
 		this.board = this.generateBoard(this.cols, this.rows);
-		//Index array for tracking height of first game piece in each column
-		this.height = new Array(cols).fill(0);
-
-		
 	}
 
-	/* Returns an empty col x row matrix  */
+	/* @Returns an empty columns x rows matrix  */
 	generateBoard(cols, rows) {
-		let board =  new Array(cols).fill().map( () => Array(rows).fill(0));
-
-		return board;
+		this.cols = cols;
+		this.rows = rows;
+		return new Array(cols).fill().map( () => Array(rows).fill(0));
 	}
+
 	getBoard() {
 		return this.board;
 	}
-	/* Returns the height of the first free board position */
-	// TODO: Make it return something else than maxHeight
+	/* @Returns height of the first free board position of column col */
 	getHeight(col) {
 		const maxHeight = this.rows;
-		// console.log(this.board);
 		if( col < 0 || col >= this.cols) {
 			return -1;
 		}
@@ -46,7 +41,7 @@ const BoardLogic = class {
 		return maxHeight;
 	}
 	/* Attempts to play a piece in seleted column
-	   Returns true if valid play */
+	   @Returns true if valid play */
 	play(col) {
 		//If column is full do nothing
 		if (this.getHeight(col) >= this.rows || col < 0 || col >= this.cols) {
@@ -59,9 +54,9 @@ const BoardLogic = class {
 
 		return true;
 	}
-	/* Checks if the last placed game piece in the column results in a win */
+	/* Checks which player has won, if the game is still ongoing or if the game is a draw
+	   @Returns RED_WIN, YELLOW_WIN, GAME_CONTINUES or GAME_DRAW */
 	checkForWin() {
-
 		//Vertically
 		for (let col = 0; col < this.cols; col++) {
 			for(let row = 0; row < this.rows - 3; row++) {
@@ -143,14 +138,11 @@ const BoardLogic = class {
 				}
 			}
 		}
-
 		for (let col = 0; col < this.cols; col++) {
-			if (col != this.EMPTY) {
+			if (this.board[col][this.rows - 1] != this.EMPTY) {
 				return this.GAME_CONTINUES
 			}
 		}
-		
-
 		return this.GAME_DRAW;
 		
 
