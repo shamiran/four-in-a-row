@@ -83,7 +83,7 @@ class BoardContainer extends Component {
       for(let j = 0; j < this.props.boardLogic.cols; j++) {
         gridContainer.push(<Grid 
           boardLogic={this.props.boardLogic}
-          row={i}
+          row={this.props.boardLogic.rows - 1 - i}
           col={j}
           key={index++}
           onPlay={this.props.onPlay} />
