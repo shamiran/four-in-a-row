@@ -61,7 +61,7 @@ const BoardLogic = class {
 		for (let col = 0; col < this.cols; col++) {
 			for(let row = 0; row < this.rows - 3; row++) {
 				let currentPiece = this.board[col][row];
-				if (currentPiece != this.EMPTY &&
+				if (currentPiece !== this.EMPTY &&
 					currentPiece === this.board[col][row + 1] && 
 					currentPiece === this.board[col][row + 2] && 
 					currentPiece === this.board[col][row + 3]) {
@@ -73,7 +73,7 @@ const BoardLogic = class {
 		for (let row = 0; row < this.rows; row++) {
 			for (let col = 0; col < this.cols - 3; col++) {
 				let currentPiece = this.board[col][row];
-				if (currentPiece != this.EMPTY &&
+				if (currentPiece !== this.EMPTY &&
 					currentPiece === this.board[col + 1][row] && 
 					currentPiece === this.board[col + 2][row] && 
 					currentPiece === this.board[col + 3][row]) {
@@ -83,11 +83,9 @@ const BoardLogic = class {
 		}
 		//Diagonally rightwards & downwards
 		for (let row = 3; row < this.rows; row++) {
-			
-			let col = 0;
 			for(let i = 0 ; i < Math.min(row + 1, this.cols); i++) {
 				let currentPiece = this.board[i][row - i];
-				if (currentPiece != this.EMPTY &&
+				if (currentPiece !== this.EMPTY &&
 					currentPiece === this.board[i + 1][row - i - 1] &&
 					currentPiece === this.board[i + 2][row - i - 2] &&
 					currentPiece === this.board[i + 3][row -i - 3]) {
@@ -102,7 +100,7 @@ const BoardLogic = class {
 			for(let i = 0; i < Math.min(this.cols - col, this.rows); i++) {
 				let currentPiece = this.board[col + i][initialRow];
 
-				if (currentPiece != this.EMPTY &&
+				if (currentPiece !== this.EMPTY &&
 					currentPiece === this.board[col + i + 1][initialRow - i - 1] &&
 					currentPiece === this.board[col + i + 2][initialRow - i - 2] &&
 					currentPiece === this.board[col + i + 3][initialRow - i - 3]) {
@@ -116,7 +114,7 @@ const BoardLogic = class {
 			let initialRow = this.rows - 1;
 			for(let i = 0; i < Math.min(col, this.rows); i ++) {
 				let currentPiece = this.board[col - i][initialRow -  i];
-				if (currentPiece != this.EMPTY &&
+				if (currentPiece !== this.EMPTY &&
 					currentPiece === this.board[col - i - 1][initialRow - i - 1] &&
 					currentPiece === this.board[col - i - 2][initialRow - i - 2] &&
 					currentPiece === this.board[col - i - 3][initialRow - i - 3]) {
@@ -129,7 +127,7 @@ const BoardLogic = class {
 			let initialCol = this.cols - 1;
 			for (let i = 0; i < Math.min(row, this.cols); i ++) {
 				let currentPiece = this.board[row][initialCol];
-				if (currentPiece != this.EMPTY &&
+				if (currentPiece !== this.EMPTY &&
 					currentPiece === this.board[initialCol - i - 1][row - i - 1] &&
 					currentPiece === this.board[initialCol - i - 2][row - i - 2] &&
 					currentPiece === this.board[initialCol - i - 3][row - i - 3]) {
@@ -139,7 +137,7 @@ const BoardLogic = class {
 			}
 		}
 		for (let col = 0; col < this.cols; col++) {
-			if (this.board[col][this.rows - 1] != this.EMPTY) {
+			if (this.board[col][this.rows - 1] !== this.EMPTY) {
 				return this.GAME_CONTINUES
 			}
 		}
