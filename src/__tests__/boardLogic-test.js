@@ -55,7 +55,7 @@ describe('Board logic for the game', () =>{
 		}
 		expect(boardLogic.play(0)).toBeFalsy();
 	});
-	it("Detects vertical win condition", () => {
+	it("Detects vertical red win condition", () => {
 		const boardLogic = new BoardLogic(cols, rows);
 		for (let turn = 0; turn < 6; turn ++)  {
 			boardLogic.play(turn % 2);
@@ -63,6 +63,17 @@ describe('Board logic for the game', () =>{
 
 		boardLogic.play(0);
 		expect(boardLogic.checkForWin()).toEqual(boardLogic.RED_WIN);
+
+	});
+	it("Detects vertical yellow win condition", () => {
+		const boardLogic = new BoardLogic(cols, rows);
+		boardLogic.play(3);
+		for (let turn = 0; turn < 6; turn ++)  {
+			boardLogic.play(turn % 2);
+		}
+
+		boardLogic.play(0);
+		expect(boardLogic.checkForWin()).toEqual(boardLogic.YELLOW_WIN);
 
 	});
 	it("Detects horizontal win condition", () => {

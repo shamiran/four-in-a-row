@@ -15,7 +15,6 @@
 .MenuItem {
 }
 .PlayerNamePickerContainer {
-  background-color: yellow;
 
 }
 .PlayerNamePicker {
@@ -24,6 +23,7 @@
 
 .BoardContainer {
   background-color: grey;
+  margin:auto;
 }
 .Board {
   width:350px;

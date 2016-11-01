@@ -137,7 +137,7 @@ const BoardLogic = class {
 			}
 		}
 		for (let col = 0; col < this.cols; col++) {
-			if (this.board[col][this.rows - 1] !== this.EMPTY) {
+			if (this.board[col][this.rows - 1] === this.EMPTY) {
 				return this.GAME_CONTINUES
 			}
 		}
