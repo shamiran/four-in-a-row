@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import BoardLogic from './boardLogic.js';
 
-const GRID_SIZE = 50;
+const GRID_SIZE = 100;
 const boardLogic = new BoardLogic(7,6);
 class App extends Component {
   constructor () {
@@ -16,10 +16,12 @@ class App extends Component {
   updateBoard() {
     this.setState({boardLogic:boardLogic});
   } 
-  updatePlayerName(color, name) {
-    console.log(color, name); 
+  updatePlayerNames(redPlayerInput, yellowPlayerInput) {
+    console.log(redPlayerInput, yellowPlayerInput); 
     console.log(this.state);
-    this.setState({color : name});
+    this.setState({
+      redPlayerName : redPlayerInput, 
+      yellowPlayerName : yellowPlayerInput});
   }
   render() {
       return (
@@ -28,7 +30,7 @@ class App extends Component {
         <GameContainer 
         boardLogic={this.state.boardLogic} 
         onPlay={this.updateBoard.bind(this)}
-        onSubmitName={this.updatePlayerName.bind(this)}
+        onSubmitName={this.updatePlayerNames.bind(this)}
         redPlayerName={this.state.redPlayerName} 
         yellowPlayerName={this.state.yellowPlayerName} />
       </div>
@@ -45,8 +47,10 @@ class GameContainer extends Component {
         redPlayerName={this.props.redPlayerName}
         yellowPlayerName={this.props.yellowPlayerName}
         />
-        <BoardContainer boardLogic={this.props.boardLogic} 
-         onPlay={this.props.onPlay}   />
+        <BoardContainer 
+        className="BoardContainer" 
+        boardLogic={this.props.boardLogic} 
+        onPlay={this.props.onPlay}   />
       </div>
     );
   }
@@ -69,14 +73,10 @@ class TurnInfo extends Component {
   render() {
     let turnInfo = "";
     let checkForWin = this.props.boardLogic.checkForWin();
-    let redPlayerName = "Player1";
-    let yellowPlayerName = "Player2";
+    let redPlayerName = this.props.redPlayerName;
+    let yellowPlayerName = this.props.yellowPlayerName;
     //Check if a player name has been input
-    if (document.getElementById('redPlayerInput')!= null && 
-        document.getElementById('yellowPlayerInput') != null) {
-      redPlayerName = document.getElementById('redPlayerInput').value;
-      yellowPlayerName = document.getElementById('yellowPlayerInput').value;
-    } 
+    
 
     
 
@@ -85,7 +85,7 @@ class TurnInfo extends Component {
       redPlayerName + "'s turn" : yellowPlayerName + "'s turn";
     } else if (checkForWin !== this.props.boardLogic.GAME_DRAW) {
       turnInfo = checkForWin === this.props.boardLogic.RED_WIN ? 
-      "Player1 wins!" : "player2 wins!"
+      redPlayerName + " wins!" : yellowPlayerName + " wins!"
     } else {
       turnInfo = "Draw!";
     }
@@ -95,7 +95,8 @@ class TurnInfo extends Component {
 }
 class NamePicker extends Component {
   handleInput(e) {
-
+    this.props.onSubmitName(document.getElementById('redPlayerInput').value,
+                            document.getElementById('yellowPlayerInput').value);
     console.log(document.getElementById('redPlayerInput').value);
     e.preventDefault();
     //this.props.onSubmitName(event.target.name, event.target.value);
@@ -149,11 +150,12 @@ class BoardContainer extends Component {
       }
     }
     let style = {
-      "width": this.props.boardLogic.cols * (GRID_SIZE + 3),
-      "height": this.props.boardLogic.rows * (GRID_SIZE + 3),
-      "backgroundColor": "blue",
+      width: this.props.boardLogic.cols * (GRID_SIZE + 3),
+      height: this.props.boardLogic.rows * (GRID_SIZE + 3),
+      backgroundColor: "blue",
+      margin:"auto",
     }
-    return(<div style={style}> {gridContainer} </div>);
+    return(<div style={style} className=""> {gridContainer} </div>);
   }
 }
 class Grid extends Component {

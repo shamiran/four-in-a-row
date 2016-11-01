@@ -1,9 +1,11 @@
 
 .GameContainer {
-  margin:auto;
   background-color: #FA8C01;
   text-align: center;
   border:5px solid black;
+  height:100vh;
+  display:flex;
+  flex-direction: column;
 }
 .MenuBar {
   margin:5px;
