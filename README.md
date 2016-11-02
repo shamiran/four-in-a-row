@@ -7,7 +7,7 @@
 been tested on linux systems.
 
 ## Running and testing
-* To run locally go to "./four-in-a-row" and run "npm run" from the terminal.  
+* To run locally go to "./four-in-a-row" and run "npm start" from the terminal.  
 * To deploy to a server open "./four-in-a-row/src/package.json" and change 
   "homepage": "http://shamiranjaf.com/four-in-a-row"
 to a desired homepage. Then run "npm run build" in
