@@ -15,6 +15,12 @@ to a desired homepage. Then run "npm run build" in
 located in /.four-in-a-row/build".  
 * Run "npm test --watch" in "./four-in-a-row" to launch test suite.  
 
+## Relevant files/folders  
+"./four-in-a-row/src/App.js" - Contains the view and controller  
+"./four-in-a-row/src/boardLogic.js" - Contains the game logic  
+"./four-in-a-row/src/highScore" - Contains the highScore list  
+"./four-in-a-row/src/__tests__" - Contains all unit tests  
+
 ## Known Issues
 * Does not currently display the board correctly for larger screen resolutions.  
 </content>
