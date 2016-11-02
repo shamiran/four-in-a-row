@@ -41,6 +41,7 @@ class App extends Component {
       <div className="App">
 
         <GameContainer 
+        className="GameContainer"
         boardLogic={this.state.boardLogic} 
         onPlay={this.updateBoard.bind(this)}
         onSubmitName={this.updatePlayerNames.bind(this)}
@@ -215,6 +216,7 @@ class BoardContainer extends Component {
     for (let i = 0; i < this.props.boardLogic.rows; i++) {
       for(let j = 0; j < this.props.boardLogic.cols; j++) {
         gridContainer.push(<Grid 
+          className="Grid"
           boardLogic={this.props.boardLogic}
           row={this.props.boardLogic.rows - 1 - i}
           col={j}
@@ -223,13 +225,17 @@ class BoardContainer extends Component {
         );
       }
     }
-    let style = {
+   /* let style = {
       width: this.props.boardLogic.cols * (GRID_SIZE + 3),
       height: this.props.boardLogic.rows * (GRID_SIZE + 6),
       backgroundColor: "blue",
       margin:"auto",
-    }
-    return(<div style={style} className=""> {gridContainer} </div>);
+    }*/
+    return(
+      <div className="BoardWrapper">
+        <div className="BoardContainer"> {gridContainer} </div>
+      </div>
+    );
   }
 }
 class Grid extends Component {
@@ -240,19 +246,13 @@ class Grid extends Component {
   }
   render() {
       let style = {
-      width:GRID_SIZE,
-      height:GRID_SIZE,
-      display:'inline-block',
-      backgroundColor: "blue",
-      border:'1px solid black'
     }
     let gridStatus = this.props.boardLogic.board[this.props.col][this.props.row];
     if (gridStatus !== this.props.boardLogic.EMPTY)  {
       style.backgroundColor = gridStatus === this.props.boardLogic.RED ? "red" : "yellow";
-      style.borderRadius = '50%';
     } 
 
-    return(<div style={style} onClick={this.handleClick.bind(this)}></div>
+    return(<div style={style} className="Grid" onClick={this.handleClick.bind(this)}></div>
     );
   }
 }
