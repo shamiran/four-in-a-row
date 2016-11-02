@@ -46,7 +46,7 @@ class App extends Component {
         onSubmitName={this.updatePlayerNames.bind(this)}
         onNewGame={this.newGame.bind(this)}
         onToggleHighScore={this.toggleHighScore.bind(this)}
-        showHighScore = {this.state.showHighScore}
+        showHighScore={this.state.showHighScore}
         redPlayerName={this.state.redPlayerName} 
         yellowPlayerName={this.state.yellowPlayerName} />
       </div>
@@ -105,13 +105,35 @@ class HighScorePanel extends Component {
     for (let i = 0; i < importedHighScore.length; i++) {
 
       highScoreList.push(
-      <tr>  
-        <td> i </td>
-        <td> importedHighScore[i].playerName </td>
-        <td> importedHighScore[i].wins </td>
-      </tr>)
+        <tr key={i}>  
+          <td key={i.toString() + ".index"}> 
+            {i} 
+          </td>
+          <td key={i.toString() + ".name"}>
+            {importedHighScore[i].playerName}
+          </td>
+          <td key={i.toString() + ".wins"}> 
+            {importedHighScore[i].wins} 
+          </td>
+        </tr>);
     }
-    return (<div>{highScoreList}</div>);
+    return (
+      <table>
+        <tbody key="tableBody"> 
+          <tr key="tableHeader">
+            <th key="rankHeader">
+              Rank
+            </th>
+            <th key="nameHeader">
+              Name
+            </th>
+            <th key="winHeader">
+              Wins
+            </th>
+          </tr>
+            {highScoreList}
+        </tbody>
+      </table>);
 
   }
 }
@@ -133,10 +155,16 @@ class TurnInfo extends Component {
     } else if (checkForWin !== this.props.boardLogic.GAME_DRAW) {
       if(checkForWin === this.props.boardLogic.RED_WIN) {
         turnInfo = redPlayerName + "wins!";
-        highScore.countWin(redPlayerName);
+        if (!this.props.boardLogic.winCounted) {
+          this.props.boardLogic.winCounted = true;
+          highScore.countWin(redPlayerName);
+        }
       } else if (checkForWin === this.props.boardLogic.YELLOW_WIN) {
         turnInfo = yellowPlayerName + "wins!";
-        highScore.countWin(yellowPlayerName);
+        if (!this.props.boardLogic.winCounted) {
+          this.props.boardLogic.winCounted = true;
+          highScore.countWin(yellowPlayerName);
+        }
       }
     } else {
       turnInfo = "Draw!";
@@ -180,13 +208,6 @@ class NamePicker extends Component {
   }
 }
 
-class NewGameButton extends Component {
-  render() {
-    return (
-      <h1>{"New Game"}</h1>
-    );
-  }
-}
 class BoardContainer extends Component {
   render() {
     let gridContainer = [];

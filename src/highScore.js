@@ -6,8 +6,9 @@ const HighScore = class {
 	}
 	/* Records a win for player and adds it to the high score list if not already present*/
 	countWin(playerName) {
+		console.log(playerName);
 		let player = this.highScore.find( 
-			(playerEntry) => {return playerEntry.playerName == playerName});
+			(playerEntry) => {return playerEntry.playerName === playerName});
 
 		/*for (let i = 0; i < this.highScore.length; i ++) {
 			if (this.highScore[i].playerName = playerName) {
@@ -19,7 +20,7 @@ const HighScore = class {
 			this.highScore.push({playerName : playerName, wins: 1});
 			return;
 		} else {
-			player.wins = player.wins + 1;
+			player.wins++;
 		}
 	}
 	/* Sorts and returns the high score list */
@@ -31,7 +32,11 @@ const HighScore = class {
 				return -1;
 			}}
 		 );
-		return this.highScore;
+		if (this.highScore.length < MAX_PLAYERS) {
+			return this.highScore;
+		} else {
+			return this.highScore.slice(0,10);
+		}
 	}
 }
 

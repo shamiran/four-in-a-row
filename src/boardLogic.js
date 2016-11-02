@@ -10,9 +10,13 @@ const BoardLogic = class {
 		this.YELLOW_WIN = 4;
 		this.GAME_CONTINUES = 5;
 		this.GAME_DRAW = 6;
+		this.GAME_OVER = 7;
+
 		this.currentPlayer = this.RED;
 		this.cols =  cols;
 		this.rows =  rows;
+		//Counter to prevent react high score render function from counting several wins at a time 
+		this.winCounted = false;
 		this.board = this.generateBoard(this.cols, this.rows);
 	}
 
@@ -22,6 +26,7 @@ const BoardLogic = class {
 		this.rows = rows;
 		this.board = new Array(cols).fill().map( () => Array(rows).fill(0));
 		this.currentPlayer = this.RED;
+		this.winCounted = false;
 		return this.board;
 	}
 
@@ -45,15 +50,12 @@ const BoardLogic = class {
 	/* Attempts to play a piece in seleted column
 	   @Returns true if valid play */
 	play(col) {
-		//If column is full do nothing
-		if (this.getHeight(col) >= this.rows || col < 0 || col >= this.cols) {
+		//Check if game is over and if column is full or out of bounds 
+		if (this.winCounted === true ||this.getHeight(col) >= this.rows || col < 0 || col >= this.cols) {
 			return false;
 		}
-		//Do the play and check if it results in a win
 		this.board[col][this.getHeight(col)] = this.currentPlayer;
-		// console.log(JSON.stringify(this.board));
 		this.currentPlayer = this.currentPlayer === this.RED ? this.YELLOW : this.RED;
-
 		return true;
 	}
 	/* Checks which player has won, if the game is still ongoing or if the game is a draw
@@ -86,7 +88,6 @@ const BoardLogic = class {
 		//Diagonally down-right
 		for (let col = 0; col < this.cols - 3; col++) {
 			for (let row = 3; row < this.rows; row++) {
-		console.log("Hey");
 				let currentPiece = this.board[col][row];
 				if (currentPiece !== this.EMPTY &&
 					currentPiece === this.board[col + 1][row - 1] &&
@@ -97,7 +98,7 @@ const BoardLogic = class {
 		}
 		//Diagonally down-left
 		for (let col = 3; col < this.cols; col++) {
-			for (let row = 3; row < this. rows; row++) {
+			for (let row = 3; row < this.rows; row++) {
 				let currentPiece = this.board[col][row];
 				if (currentPiece !== this.EMPTY &&
 					currentPiece === this.board[col - 1][row - 1] &&
@@ -114,6 +115,15 @@ const BoardLogic = class {
 		return this.GAME_DRAW;
 		
 
+	}
+	/* Helper function for preventing react counting several wins at a time */
+	winCounted() {
+		if (this.winCounted) {
+			return true;
+		} else {
+			this.winCounted = true;
+			return false;
+		}
 	}
 }
 
