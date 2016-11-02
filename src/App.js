@@ -16,6 +16,16 @@ class App extends Component {
   updateBoard() {
     this.setState({boardLogic:boardLogic});
   } 
+  newGame() {
+    let newBoard = boardLogic.generateBoard(7,6);
+    console.log(newBoard);
+    this.setState({boardLogic:boardLogic});
+
+  }
+ toggleHighScore() {
+  let showHighScore = this.state.showHighScore ? true : false;
+  this.setState({showHighScore: showHighScore});
+ } 
   updatePlayerNames(redPlayerInput, yellowPlayerInput) {
     console.log(redPlayerInput, yellowPlayerInput); 
     console.log(this.state);
@@ -31,6 +41,8 @@ class App extends Component {
         boardLogic={this.state.boardLogic} 
         onPlay={this.updateBoard.bind(this)}
         onSubmitName={this.updatePlayerNames.bind(this)}
+        onNewGame={this.newGame.bind(this)}
+        onToggleHighScore={this.toggleHighScore.bind(this)}
         redPlayerName={this.state.redPlayerName} 
         yellowPlayerName={this.state.yellowPlayerName} />
       </div>
@@ -38,10 +50,14 @@ class App extends Component {
   }
 }
 class GameContainer extends Component {
+ 
  render() {
     return (
       <div className="GameContainer"> 
-        <MenuBar onSubmitName={this.props.onSubmitName} />
+        <MenuBar 
+        onSubmitName={this.props.onSubmitName}
+        onNewGame={this.props.onNewGame}
+        onToggleHighScore={this.props.onToggleHighScore} />
         <TurnInfo 
         boardLogic={this.props.boardLogic}
         redPlayerName={this.props.redPlayerName}
@@ -63,12 +79,19 @@ class MenuBar extends Component {
         className="MenuItem"
         onSubmitName={this.props.onSubmitName}
         />
-        <NewGameButton className="MenuItem"/>
+        <div className="MenuButtonContainer">
+          <button className="MenuButton" onClick={this.props.onNewGame} >
+            NEW GAME
+          </button>
+          <button className="MenuButton" onClick={this.props.onToggleHighScore}>
+            HIGH SCORE
+          </button>
+        </div>
       </div>
     );
   }
 }
-//TODO: Change player1, player2 to NamePicker input names
+
 class TurnInfo extends Component {
   render() {
     let turnInfo = "";
@@ -127,6 +150,7 @@ class NamePicker extends Component {
     );
   }
 }
+
 class NewGameButton extends Component {
   render() {
     return (

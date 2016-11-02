@@ -20,7 +20,9 @@ const BoardLogic = class {
 	generateBoard(cols, rows) {
 		this.cols = cols;
 		this.rows = rows;
-		return new Array(cols).fill().map( () => Array(rows).fill(0));
+		this.board = new Array(cols).fill().map( () => Array(rows).fill(0));
+		this.currentPlayer = this.RED;
+		return this.board;
 	}
 
 	getBoard() {
