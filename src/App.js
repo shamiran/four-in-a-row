@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 import BoardLogic from './boardLogic.js';
+import HighScore from './highScore.js';
 
 const GRID_SIZE = 100;
 const boardLogic = new BoardLogic(7,6);
+const highScore = new HighScore();
 class App extends Component {
   constructor () {
     super();
@@ -23,7 +25,8 @@ class App extends Component {
 
   }
  toggleHighScore() {
-  let showHighScore = this.state.showHighScore ? true : false;
+  let showHighScore = this.state.showHighScore ? false : true;
+  console.log("toggle");
   this.setState({showHighScore: showHighScore});
  } 
   updatePlayerNames(redPlayerInput, yellowPlayerInput) {
@@ -43,6 +46,7 @@ class App extends Component {
         onSubmitName={this.updatePlayerNames.bind(this)}
         onNewGame={this.newGame.bind(this)}
         onToggleHighScore={this.toggleHighScore.bind(this)}
+        showHighScore = {this.state.showHighScore}
         redPlayerName={this.state.redPlayerName} 
         yellowPlayerName={this.state.yellowPlayerName} />
       </div>
@@ -57,7 +61,9 @@ class GameContainer extends Component {
         <MenuBar 
         onSubmitName={this.props.onSubmitName}
         onNewGame={this.props.onNewGame}
-        onToggleHighScore={this.props.onToggleHighScore} />
+        onToggleHighScore={this.props.onToggleHighScore}  />
+        
+        {this.props.showHighScore ? <HighScorePanel />  : null}
         <TurnInfo 
         boardLogic={this.props.boardLogic}
         redPlayerName={this.props.redPlayerName}
@@ -91,6 +97,24 @@ class MenuBar extends Component {
     );
   }
 }
+/* The panel which contains the high score list */
+class HighScorePanel extends Component {
+  render() {
+    const importedHighScore = highScore.getHighScore();
+    const highScoreList = [];
+    for (let i = 0; i < importedHighScore.length; i++) {
+
+      highScoreList.push(
+      <tr>  
+        <td> i </td>
+        <td> importedHighScore[i].playerName </td>
+        <td> importedHighScore[i].wins </td>
+      </tr>)
+    }
+    return (<div>{highScoreList}</div>);
+
+  }
+}
 
 class TurnInfo extends Component {
   render() {
@@ -107,8 +131,13 @@ class TurnInfo extends Component {
       turnInfo = this.props.boardLogic.currentPlayer === this.props.boardLogic.RED ?
       redPlayerName + "'s turn" : yellowPlayerName + "'s turn";
     } else if (checkForWin !== this.props.boardLogic.GAME_DRAW) {
-      turnInfo = checkForWin === this.props.boardLogic.RED_WIN ? 
-      redPlayerName + " wins!" : yellowPlayerName + " wins!"
+      if(checkForWin === this.props.boardLogic.RED_WIN) {
+        turnInfo = redPlayerName + "wins!";
+        highScore.countWin(redPlayerName);
+      } else if (checkForWin === this.props.boardLogic.YELLOW_WIN) {
+        turnInfo = yellowPlayerName + "wins!";
+        highScore.countWin(yellowPlayerName);
+      }
     } else {
       turnInfo = "Draw!";
     }
@@ -175,7 +204,7 @@ class BoardContainer extends Component {
     }
     let style = {
       width: this.props.boardLogic.cols * (GRID_SIZE + 3),
-      height: this.props.boardLogic.rows * (GRID_SIZE + 3),
+      height: this.props.boardLogic.rows * (GRID_SIZE + 6),
       backgroundColor: "blue",
       margin:"auto",
     }

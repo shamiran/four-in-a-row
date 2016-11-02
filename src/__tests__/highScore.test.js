@@ -1,5 +1,5 @@
 
-const HighScore = require('../highScore.js')
+import HighScore from '../highScore.js';
 
 describe('HighScore ranking players by won games', () => {
 	it("Registers win of a new player", () => {

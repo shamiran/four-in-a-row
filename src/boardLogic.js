@@ -83,59 +83,27 @@ const BoardLogic = class {
 				}
 			}
 		}
-		//Diagonally rightwards & downwards
-		for (let row = 3; row < this.rows; row++) {
-			for(let i = 0 ; i < Math.min(row + 1, this.cols); i++) {
-				let currentPiece = this.board[i][row - i];
+		//Diagonally down-right
+		for (let col = 0; col < this.cols - 3; col++) {
+			for (let row = 3; row < this.rows; row++) {
+		console.log("Hey");
+				let currentPiece = this.board[col][row];
 				if (currentPiece !== this.EMPTY &&
-					currentPiece === this.board[i + 1][row - i - 1] &&
-					currentPiece === this.board[i + 2][row - i - 2] &&
-					currentPiece === this.board[i + 3][row -i - 3]) {
-					return currentPiece === this.RED ? this.RED_WIN : this.YELLOW_WIN;
-				}
-
-			}
-			
-		}
-		for (let col = 1; col < this.cols - 3; col++) {
-			let initialRow = this.rows - 1;
-			for(let i = 0; i < Math.min(this.cols - col, this.rows); i++) {
-				let currentPiece = this.board[col + i][initialRow];
-
-				if (currentPiece !== this.EMPTY &&
-					currentPiece === this.board[col + i + 1][initialRow - i - 1] &&
-					currentPiece === this.board[col + i + 2][initialRow - i - 2] &&
-					currentPiece === this.board[col + i + 3][initialRow - i - 3]) {
-					return currentPiece === this.RED ? this.RED_WIN : this.YELLOW_WIN;
-				}
-
+					currentPiece === this.board[col + 1][row - 1] &&
+					currentPiece === this.board[col + 2][row - 2] &&
+					currentPiece === this.board[col + 3][row - 3])
+					return currentPiece === this.RED ? this.RED_WIN : this.YELLOW_WIN; 
 			}
 		}
-		//Diagonally leftwards & downwards
+		//Diagonally down-left
 		for (let col = 3; col < this.cols; col++) {
-			let initialRow = this.rows - 1;
-			for(let i = 0; i < Math.min(col, this.rows); i ++) {
-				let currentPiece = this.board[col - i][initialRow -  i];
+			for (let row = 3; row < this. rows; row++) {
+				let currentPiece = this.board[col][row];
 				if (currentPiece !== this.EMPTY &&
-					currentPiece === this.board[col - i - 1][initialRow - i - 1] &&
-					currentPiece === this.board[col - i - 2][initialRow - i - 2] &&
-					currentPiece === this.board[col - i - 3][initialRow - i - 3]) {
-
-					return currentPiece === this.RED ? this.RED_WIN : this.YELLOW_WIN;
-				}
-			}
-		}
-		for (let row = 3; row < this.rows - 2; row ++) {
-			let initialCol = this.cols - 1;
-			for (let i = 0; i < Math.min(row, this.cols); i ++) {
-				let currentPiece = this.board[row][initialCol];
-				if (currentPiece !== this.EMPTY &&
-					currentPiece === this.board[initialCol - i - 1][row - i - 1] &&
-					currentPiece === this.board[initialCol - i - 2][row - i - 2] &&
-					currentPiece === this.board[initialCol - i - 3][row - i - 3]) {
-
-					return currentPiece === this.RED ? this.RED_WIN : this.YELLOW_WIN;
-				}
+					currentPiece === this.board[col - 1][row - 1] &&
+					currentPiece === this.board[col - 2][row - 2] &&
+					currentPiece === this.board[col - 3][row - 3])
+					return currentPiece === this.RED ? this.RED_WIN : this.YELLOW_WIN; 
 			}
 		}
 		for (let col = 0; col < this.cols; col++) {

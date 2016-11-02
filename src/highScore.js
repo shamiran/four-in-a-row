@@ -1,5 +1,5 @@
 const MAX_PLAYERS = 10;
-const highScore = class {
+const HighScore = class {
 	constructor() {
 		this.highScore = [];
 
@@ -35,4 +35,4 @@ const highScore = class {
 	}
 }
 
-module.exports = highScore;
+module.exports = HighScore;

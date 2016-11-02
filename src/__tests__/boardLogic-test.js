@@ -100,6 +100,7 @@ describe('Board logic for the game', () =>{
 		boardLogic.play(2);
 		boardLogic.play(2);
 		boardLogic.play(3);
+		console.log(boardLogic.board);
 		expect(boardLogic.checkForWin()).toEqual(boardLogic.RED_WIN);
 	});
 	it("Detects left diagonal win condition", () => {
