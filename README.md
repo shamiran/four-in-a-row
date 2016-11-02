@@ -1,7 +1,7 @@
 <snippet>
   <content>
 #four-in-a-row
-## Installation:
+## Installation
 1. Install node and npm (node v.6.7.0 and npm v.3.10.3 were used in development)
 2. Run "npm install" in "./four-in-a-row". Note that the installation has only
 been tested on linux systems.
@@ -13,7 +13,9 @@ been tested on linux systems.
 to a desired homepage. Then run "npm run build" in
 "./four-in-a-row", the deployment-ready build is then 
 located in /.four-in-a-row/build".  
-* Run "npm test --watch" in "./four-in-a-row" to launch test suite.
+* Run "npm test --watch" in "./four-in-a-row" to launch test suite.  
+## Known Issues
+* Does not currently display the board correctly for larger screen resolutions.
 </content>
   <tabTrigger></tabTrigger>
 </snippet>
