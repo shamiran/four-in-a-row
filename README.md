@@ -14,8 +14,9 @@ to a desired homepage. Then run "npm run build" in
 "./four-in-a-row", the deployment-ready build is then 
 located in /.four-in-a-row/build".  
 * Run "npm test --watch" in "./four-in-a-row" to launch test suite.  
+
 ## Known Issues
-* Does not currently display the board correctly for larger screen resolutions.
+* Does not currently display the board correctly for larger screen resolutions.  
 </content>
   <tabTrigger></tabTrigger>
 </snippet>
