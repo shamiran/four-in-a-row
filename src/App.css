@@ -16,9 +16,14 @@
   border:3px solid red;
   background-color: white;
   display:flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
 }
-.MenuItem {
+.MenuButtonContainer {
+  display:flex;
+}
+.HighScoreTable {
+  align:center;
 }
 .PlayerNamePickerContainer {
 

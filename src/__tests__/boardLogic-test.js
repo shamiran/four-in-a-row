@@ -87,7 +87,7 @@ describe('Board logic for the game', () =>{
 		boardLogic.play(3);
 		expect(boardLogic.checkForWin()).toEqual(boardLogic.RED_WIN);
 	});
-	it("Detects a right diagonal win condition", () => {
+	it("Detects a right-down win condition", () => {
 		const boardLogic = new BoardLogic(cols, rows);
 		boardLogic.play(0);
 		boardLogic.play(0);
@@ -102,7 +102,7 @@ describe('Board logic for the game', () =>{
 		boardLogic.play(3);
 		expect(boardLogic.checkForWin()).toEqual(boardLogic.RED_WIN);
 	});
-	it("Detects left diagonal win condition", () => {
+	it("Detects a right-up win condition", () => {
 		const boardLogic = new BoardLogic(cols, rows);
 		boardLogic.play(0);
 		boardLogic.play(1);

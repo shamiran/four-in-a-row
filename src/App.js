@@ -3,9 +3,10 @@ import './App.css';
 import BoardLogic from './boardLogic.js';
 import HighScore from './highScore.js';
 
-const GRID_SIZE = 100;
 const boardLogic = new BoardLogic(7,6);
 const highScore = new HighScore();
+
+/* Highest level react component containing the entirety of the view and model for the game */
 class App extends Component {
   constructor () {
     super();
@@ -15,20 +16,21 @@ class App extends Component {
       yellowPlayerName : "Player 2"
     };
   }
+  /* Triggered by Grid component when a valid play has been made */
   updateBoard() {
     this.setState({boardLogic:boardLogic});
   } 
+  /* Triggered by NewGame button component when pressed */ 
   newGame() {
     let newBoard = boardLogic.generateBoard(7,6);
     console.log(newBoard);
     this.setState({boardLogic:boardLogic});
-
   }
- toggleHighScore() {
-  let showHighScore = this.state.showHighScore ? false : true;
-  console.log("toggle");
-  this.setState({showHighScore: showHighScore});
- } 
+  toggleHighScore() {
+   let showHighScore = this.state.showHighScore ? false : true;
+   console.log("toggle");
+   this.setState({showHighScore: showHighScore});
+  } 
   updatePlayerNames(redPlayerInput, yellowPlayerInput) {
     console.log(redPlayerInput, yellowPlayerInput); 
     console.log(this.state);
@@ -37,23 +39,23 @@ class App extends Component {
       yellowPlayerName : yellowPlayerInput});
   }
   render() {
-      return (
-      <div className="App">
-
-        <GameContainer 
-        className="GameContainer"
-        boardLogic={this.state.boardLogic} 
-        onPlay={this.updateBoard.bind(this)}
-        onSubmitName={this.updatePlayerNames.bind(this)}
-        onNewGame={this.newGame.bind(this)}
-        onToggleHighScore={this.toggleHighScore.bind(this)}
-        showHighScore={this.state.showHighScore}
-        redPlayerName={this.state.redPlayerName} 
-        yellowPlayerName={this.state.yellowPlayerName} />
-      </div>
+    return (
+    <div className="App">
+      <GameContainer 
+      className="GameContainer"
+      boardLogic={this.state.boardLogic} 
+      onPlay={this.updateBoard.bind(this)}
+      onSubmitName={this.updatePlayerNames.bind(this)}
+      onNewGame={this.newGame.bind(this)}
+      onToggleHighScore={this.toggleHighScore.bind(this)}
+      showHighScore={this.state.showHighScore}
+      redPlayerName={this.state.redPlayerName} 
+      yellowPlayerName={this.state.yellowPlayerName} />
+    </div>
     );
   }
 }
+/* In hindsight superfluos container class which could've been integrated with App */
 class GameContainer extends Component {
  
  render() {
@@ -78,6 +80,7 @@ class GameContainer extends Component {
     );
   }
 }
+/* Contains the menu components */
 class MenuBar extends Component {
   render() {
     return (
@@ -98,7 +101,7 @@ class MenuBar extends Component {
     );
   }
 }
-/* The panel which contains the high score list */
+/* The panel which contains the high score list, utilizes highScore.js to store and read data */
 class HighScorePanel extends Component {
   render() {
     const importedHighScore = highScore.getHighScore();
@@ -119,7 +122,7 @@ class HighScorePanel extends Component {
         </tr>);
     }
     return (
-      <table>
+      <table className="HighScoreTable">
         <tbody key="tableBody"> 
           <tr key="tableHeader">
             <th key="rankHeader">
@@ -145,35 +148,34 @@ class TurnInfo extends Component {
     let checkForWin = this.props.boardLogic.checkForWin();
     let redPlayerName = this.props.redPlayerName;
     let yellowPlayerName = this.props.yellowPlayerName;
-    //Check if a player name has been input
-    
-
-    
-
     if (checkForWin === this.props.boardLogic.GAME_CONTINUES) {
       turnInfo = this.props.boardLogic.currentPlayer === this.props.boardLogic.RED ?
       redPlayerName + "'s turn" : yellowPlayerName + "'s turn";
     } else if (checkForWin !== this.props.boardLogic.GAME_DRAW) {
-      if(checkForWin === this.props.boardLogic.RED_WIN) {
-        turnInfo = redPlayerName + "wins!";
-        if (!this.props.boardLogic.winCounted) {
-          this.props.boardLogic.winCounted = true;
-          highScore.countWin(redPlayerName);
+        if(checkForWin === this.props.boardLogic.RED_WIN) {
+          turnInfo = redPlayerName + "wins!";
+          //Makes sure that the win is counted only once in in the high score
+          if (!this.props.boardLogic.winCounted) {
+            this.props.boardLogic.winCounted = true;
+            highScore.countWin(redPlayerName);
+          }
+        } 
+        else if (checkForWin === this.props.boardLogic.YELLOW_WIN) {
+          turnInfo = yellowPlayerName + "wins!";
+          //Makes sure that the win is counted only once in in the high score
+          if (!this.props.boardLogic.winCounted) {
+            this.props.boardLogic.winCounted = true;
+            highScore.countWin(yellowPlayerName);
+          }
         }
-      } else if (checkForWin === this.props.boardLogic.YELLOW_WIN) {
-        turnInfo = yellowPlayerName + "wins!";
-        if (!this.props.boardLogic.winCounted) {
-          this.props.boardLogic.winCounted = true;
-          highScore.countWin(yellowPlayerName);
-        }
-      }
     } else {
       turnInfo = "Draw!";
     }
-    return(<div>{turnInfo}</div>);
+    return(<h2>{turnInfo}</h2>);
 
   }
 }
+
 class NamePicker extends Component {
   handleInput(e) {
     this.props.onSubmitName(document.getElementById('redPlayerInput').value,
@@ -208,7 +210,7 @@ class NamePicker extends Component {
     );
   }
 }
-
+/* Contains the grid components which comprise the game board */
 class BoardContainer extends Component {
   render() {
     let gridContainer = [];
@@ -218,6 +220,8 @@ class BoardContainer extends Component {
         gridContainer.push(<Grid 
           className="Grid"
           boardLogic={this.props.boardLogic}
+          //The logic for the row index is a hack to compensate for the fact that 
+          //the grids get positions from top to bottom by inverting its index
           row={this.props.boardLogic.rows - 1 - i}
           col={j}
           key={index++}
@@ -225,19 +229,16 @@ class BoardContainer extends Component {
         );
       }
     }
-   /* let style = {
-      width: this.props.boardLogic.cols * (GRID_SIZE + 3),
-      height: this.props.boardLogic.rows * (GRID_SIZE + 6),
-      backgroundColor: "blue",
-      margin:"auto",
-    }*/
     return(
+      //Wrapper for ensuring correct board ratio aspect across different screen sizes
       <div className="BoardWrapper">
         <div className="BoardContainer"> {gridContainer} </div>
       </div>
     );
   }
 }
+/* Component for the actual grids comprising the game board, uses the prop handleClick to 
+   trigger re-render when a valid play has been made */
 class Grid extends Component {
   handleClick() {
     if (this.props.boardLogic.play(this.props.col)) {

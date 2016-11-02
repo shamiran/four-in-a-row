@@ -1,21 +1,18 @@
 const MAX_PLAYERS = 10;
+/* A utility class for storing the high score data, is not persistent
+   but could be made so in the future with cookies or localStorage
+   (using node-localStorage) */
 const HighScore = class {
 	constructor() {
 		this.highScore = [];
 
 	}
-	/* Records a win for player and adds it to the high score list if not already present*/
+	/* Records a win for playerName and adds playerName to 
+	   the high score list if not already present*/
 	countWin(playerName) {
 		console.log(playerName);
 		let player = this.highScore.find( 
 			(playerEntry) => {return playerEntry.playerName === playerName});
-
-		/*for (let i = 0; i < this.highScore.length; i ++) {
-			if (this.highScore[i].playerName = playerName) {
-				this.highScore[i].wins = this.highScore[i].wins + 1;
-				return;
-			}
-		}*/
 		if (player === undefined) {
 			this.highScore.push({playerName : playerName, wins: 1});
 			return;
@@ -23,7 +20,7 @@ const HighScore = class {
 			player.wins++;
 		}
 	}
-	/* Sorts and returns the high score list */
+	/* Sorts and returns the high score list containing the top  */
 	getHighScore() {
 		this.highScore.sort( (a,b) => {
 			if (a.wins < b.wins) {
